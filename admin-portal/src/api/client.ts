@@ -1,4 +1,5 @@
-const BASE = '';
+export const API_BASE = import.meta.env.VITE_API_URL || '';
+const BASE = API_BASE;
 
 let token: string | null = localStorage.getItem('token');
 
@@ -46,7 +47,7 @@ export async function api<T = any>(
 
   if (res.status === 401) {
     setToken(null);
-    window.location.href = '/login';
+    window.location.href = `${import.meta.env.BASE_URL}login`;
     throw new Error('Unauthorized');
   }
 

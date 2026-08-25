@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Loader2, Truck, Zap, ClipboardList, Building2, FileText, MapPin } from 'lucide-react';
+import { API_BASE } from '../api/client';
 
 const ENTITY_ROUTES: Record<string, string> = {
   vehicles: '/fleet',
@@ -43,7 +44,7 @@ export default function SearchBar() {
     const timer = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/v1/search?q=${encodeURIComponent(query)}`, {
+        const res = await fetch(`${API_BASE}/v1/search?q=${encodeURIComponent(query)}`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
         });
         const data = await res.json();

@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { jobs as jobsApi, clients as clientsApi, vehicles as vehiclesApi, generators as generatorsApi, employees as employeesApi, hasRole, assetTraceability, getToken } from '../api/client';
+import { jobs as jobsApi, clients as clientsApi, vehicles as vehiclesApi, generators as generatorsApi, employees as employeesApi, hasRole, assetTraceability, getToken, API_BASE } from '../api/client';
 
 interface Client { id: string; name: string; }
 interface Site { id: string; name: string; address: string; }
@@ -213,7 +213,7 @@ export default function Dispatch() {
             )}
             <button onClick={async () => {
               try {
-                const res = await fetch('/v1/jobs/report/completed', {
+                const res = await fetch(`${API_BASE}/v1/jobs/report/completed`, {
                   headers: { 'Authorization': `Bearer ${getToken()}` }
                 });
                 const blob = await res.blob();

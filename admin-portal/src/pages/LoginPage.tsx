@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setToken } from '../api/client';
+import { setToken, API_BASE } from '../api/client';
 import { Zap, Loader2, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
@@ -17,7 +17,7 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      const res = await fetch('/v1/auth/login', {
+      const res = await fetch(`${API_BASE}/v1/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, remember_me: rememberMe }),

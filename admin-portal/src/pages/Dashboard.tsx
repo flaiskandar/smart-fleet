@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { vehicles, generators, jobs, fuel, geofences, getToken } from '../api/client';
+import { vehicles, generators, jobs, fuel, geofences, getToken, API_BASE } from '../api/client';
 import { Truck, Zap, ClipboardList, Download, AlertTriangle, TrendingUp } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader';
 import StatCard from '../components/ui/StatCard';
@@ -48,7 +48,7 @@ export default function Dashboard() {
           <button
             onClick={async () => {
               try {
-                const res = await fetch('/v1/dashboard/report', {
+                const res = await fetch(`${API_BASE}/v1/dashboard/report`, {
                   headers: { 'Authorization': `Bearer ${getToken()}` }
                 });
                 if (!res.ok) throw new Error('Download failed');

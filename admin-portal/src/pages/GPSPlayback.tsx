@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { vehicles as vehiclesApi } from '../api/client';
+import { vehicles as vehiclesApi, API_BASE } from '../api/client';
 import { Navigation, Play, Pause, Map as MapIcon, Loader2 } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader';
 
@@ -26,7 +26,7 @@ export default function GPSPlayback() {
     setPlaying(false);
     setCurrentIndex(0);
     try {
-      const res = await fetch(`/v1/vehicles/${selectedVehicle}/telemetry`, {
+      const res = await fetch(`${API_BASE}/v1/vehicles/${selectedVehicle}/telemetry`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();

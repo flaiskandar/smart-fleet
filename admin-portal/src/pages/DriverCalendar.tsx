@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { employees as employeesApi } from '../api/client';
+import { employees as employeesApi, API_BASE } from '../api/client';
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader';
 
@@ -23,7 +23,7 @@ export default function DriverCalendar() {
     try {
       const from = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toISOString();
       const to = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).toISOString();
-      const res = await fetch(`/v1/jobs?from=${from}&to=${to}`, {
+      const res = await fetch(`${API_BASE}/v1/jobs?from=${from}&to=${to}`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();

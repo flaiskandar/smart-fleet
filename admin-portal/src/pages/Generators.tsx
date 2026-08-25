@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import PageHeader from '../components/ui/PageHeader';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import { generators as generatorsApi, assetTraceability, hasRole } from '../api/client';
+import { generators as generatorsApi, assetTraceability, hasRole, API_BASE } from '../api/client';
 
 type Tab = 'list' | 'components' | 'hours';
 
@@ -61,7 +61,7 @@ export default function Generators() {
     if (!selectedGen) return;
     setLoadingData(true);
     try {
-      const res = await fetch(`/v1/generators/${selectedGen}/hours`, {
+      const res = await fetch(`${API_BASE}/v1/generators/${selectedGen}/hours`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();
@@ -100,7 +100,7 @@ export default function Generators() {
     if (!showEdit) return;
     setSubmitting(true); setError('');
     try {
-      await fetch(`/v1/generators/${showEdit.id}`, {
+      await fetch(`${API_BASE}/v1/generators/${showEdit.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({
@@ -124,7 +124,7 @@ export default function Generators() {
     if (!showDeleteConfirm) return;
     setSubmitting(true); setError('');
     try {
-      await fetch(`/v1/generators/${showDeleteConfirm.id}`, {
+      await fetch(`${API_BASE}/v1/generators/${showDeleteConfirm.id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
       });

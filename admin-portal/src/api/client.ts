@@ -1,6 +1,8 @@
+declare const __BACKEND_URL__: string;
+
 const DEV_API = '';
-const PROD_FALLBACK = 'https://linux-bookmarks-pure-taxi.trycloudflare.com';
-export const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? DEV_API : PROD_FALLBACK);
+const PROD_FALLBACK = __BACKEND_URL__ || 'https://linux-bookmarks-pure-taxi.trycloudflare.com';
+export const API_BASE = import.meta.env.DEV ? DEV_API : PROD_FALLBACK;
 const BASE = API_BASE;
 
 let token: string | null = localStorage.getItem('token');

@@ -3,6 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    __BACKEND_URL__: JSON.stringify(
+      process.env.VITE_API_URL || 'https://linux-bookmarks-pure-taxi.trycloudflare.com'
+    ),
+  },
   server: {
     port: 5173,
     allowedHosts: true,

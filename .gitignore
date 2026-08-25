@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+backend/dist/
+admin-portal/dist/
+
+# Databases (regenerate with: cd backend && npm run migrate && npm run seed)
+backend/data/
+*.db
+
+# Logs & tunnels
+*.log
+cloudflared_*.txt
+start_tunnel.bat
+
+# OS / temp
+~$*
+.DS_Store
+Thumbs.db
+
+# Sensitive internal documents
+financial_2025.pdf
+
+# Screenshots (regenerate via capture.mjs)
+screenshots/

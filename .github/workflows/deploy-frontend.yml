@@ -34,7 +34,9 @@ jobs:
         working-directory: admin-portal
         run: npm run build -- --base=/smart-fleet/
         env:
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          # Set a repo variable VITE_API_URL in Settings > Secrets and variables > Actions
+          # to override; otherwise falls back to the current Cloudflare quick-tunnel.
+          VITE_API_URL: ${{ vars.VITE_API_URL || 'https://returning-endorsed-senator-identifying.trycloudflare.com' }}
 
       - name: SPA fallback for deep links
         working-directory: admin-portal

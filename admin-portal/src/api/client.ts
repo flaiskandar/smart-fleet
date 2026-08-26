@@ -1,7 +1,7 @@
 declare const __BACKEND_URL__: string;
 
 const DEV_API = '';
-const PROD_FALLBACK = __BACKEND_URL__ || 'https://linux-bookmarks-pure-taxi.trycloudflare.com';
+const PROD_FALLBACK = __BACKEND_URL__ || 'https://noble-zope-abraham-workstation.trycloudflare.com';
 export const API_BASE = import.meta.env.DEV ? DEV_API : PROD_FALLBACK;
 const BASE = API_BASE;
 

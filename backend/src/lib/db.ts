@@ -167,7 +167,11 @@ export async function getClient() {
 }
 
 export function convertSqlForPostgres(sql: string): string {
-  let result = sql.replace(/\bdatetime\('now'\)/gi, 'NOW()');
+  let result = sql;
+  result = result.replace(/\bdatetime\(\s*'now'\s*,\s*'([^']+)'\s*,\s*'([^']+)'\s*\)/gi, (_m, a, b) => `NOW() - INTERVAL '${a}' + INTERVAL '${b}'`);
+  result = result.replace(/\bdatetime\(\s*'now'\s*,\s*'([^']+)'\s*\)/gi, (_m, a) => `NOW() - INTERVAL '${a}'`);
+  result = result.replace(/\bdatetime\(\s*'now'\s*\)/gi, 'NOW()');
+  result = result.replace(/\bdatetime\(\s*'(\d{4}-\d{2}-\d{2}[^']*)'\s*\)/gi, "'$1'::timestamp");
   const lines = result.split('\n');
   const output: string[] = [];
   let inInsert = false;

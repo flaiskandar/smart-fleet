@@ -21,8 +21,16 @@ async function migrate() {
     if (dbType === 'postgres') sql = convertSqlForPostgres(sql);
     console.log(`  Executing: ${file}`);
     try {
-      await query(sql);
-      console.log(`  ✓ ${file} applied`);
+      if (dbType === 'postgres') {
+        const statements = sql.split(';').map(s => s.trim()).filter(Boolean);
+        for (const stmt of statements) {
+          await query(stmt);
+        }
+        console.log(`  ✓ ${file} applied (${statements.length} statements)`);
+      } else {
+        await query(sql);
+        console.log(`  ✓ ${file} applied`);
+      }
       found = true;
     } catch (err: any) {
       console.error(`  ✗ ${file} failed:`, err.message);

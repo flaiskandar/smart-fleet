@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { query, initDb, getDbType } from './db.js';
+import { query, initDb, getDbType, convertSqlForPostgres } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const MIGRATIONS_DIR = path.resolve(__dirname, '../../database/migrations');
@@ -11,14 +11,14 @@ async function migrate() {
   const dbType = getDbType();
   console.log(`Running migrations for ${dbType}...`);
 
-  const ext = dbType === 'sqlite' ? '.sqlite.sql' : '.sql';
   const files = fs.readdirSync(MIGRATIONS_DIR)
-    .filter(f => f.endsWith(ext))
+    .filter(f => f.endsWith('.sqlite.sql'))
     .sort();
 
   let found = false;
   for (const file of files) {
-    const sql = fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8');
+    let sql = fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8');
+    if (dbType === 'postgres') sql = convertSqlForPostgres(sql);
     console.log(`  Executing: ${file}`);
     try {
       await query(sql);

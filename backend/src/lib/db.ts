@@ -166,6 +166,28 @@ export async function getClient() {
   throw new Error('getClient() only available for PostgreSQL');
 }
 
+export function convertSqlForPostgres(sql: string): string {
+  let result = sql.replace(/\bdatetime\('now'\)/gi, 'NOW()');
+  const lines = result.split('\n');
+  const output: string[] = [];
+  let inInsert = false;
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (/^\s*INSERT\s+OR\s+IGNORE\b/i.test(trimmed)) {
+      inInsert = true;
+      output.push(line.replace(/\bINSERT\s+OR\s+IGNORE\b/gi, 'INSERT'));
+      continue;
+    }
+    if (inInsert && trimmed.endsWith(';')) {
+      output.push(line.replace(/;\s*$/, ' ON CONFLICT DO NOTHING;'));
+      inInsert = false;
+      continue;
+    }
+    output.push(line);
+  }
+  return output.join('\n');
+}
+
 export function getDbType() {
   return dbType;
 }

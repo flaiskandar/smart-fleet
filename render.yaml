@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: express-powerr-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    preDeployCommand: npx tsx src/lib/migrate.ts && npx tsx src/lib/seed.ts && npx tsx src/lib/setup-admin.ts
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
